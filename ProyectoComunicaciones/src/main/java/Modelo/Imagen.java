@@ -6,7 +6,7 @@ import ij.process.ColorProcessor;
 import ij.process.ImageProcessor;
 
 /**
- * This is an image class to work with image information
+ * Esta es una clase para trabajar con informacion de Imagenes
  *
  * @author Nelson David Quiñones Virgen
  * @author n1
@@ -29,6 +29,8 @@ public class Imagen {
 	 */
 	private String binInformation;
 	
+	
+	
 	/**
     * Constructor de Imagen
     * @param imagePath : String es la ruta de la imagen con que trabajara la instancia de {@link #Imagen}
@@ -41,16 +43,48 @@ public class Imagen {
 	}
 	
 	/**
-    *  El metodo obtine la informacion rgb de cada bit de la imagen
-    *  y la almacena en el String <b>binInformation<\b>
+    * Constructor de Imagen
+    * 
+    * @param imageInfo : String[] es un arreglo con la información de cada pixel de la imagen
+    * con el que se creara una instancia de {@link #Imagen}.
+    * 
+    * imageInfo[] se puede obtener del String <b>bitInformation</b> 
+    * separando su contenido por comas.
     */
-	public void calculateBinInformation() {
+	public Imagen(String imageInfo[]) {
+		int altura = Integer.parseInt(imageInfo[0]);
+		int ancho = Integer.parseInt(imageInfo[1]);
+		
+		ImagePlus ref = new ImagePlus();
+		ImageProcessor myProcessor = ref.getProcessor();
+				
+		
+		for(int i = 0; i<altura ; i++) {
+			for(int j = 0; j<ancho; j++) {
+				myProcessor.set(i, j, Integer.parseInt(imageInfo[i*ancho+j]));
+			}
+		}
+		
+		this.image = ref;
+		image.show();
+	}
+	
+	/**
+	*  
+    *  El metodo obtine la informacion rgb de cada bit de la imagen
+    *  y los almacena en el String <b>binInformation</b> separados por comas.
+    *  Los primeros dos datos del String contienen la <b>altura</b> y el <b>ancho</b> de la imagen.
+    */
+	private void calculateBinInformation() {
 	    ImageProcessor myProcessor = image.getProcessor();
 	    
 	    int[] pixels = (int[]) myProcessor.getPixels();
 	    
 	    StringBuilder out = new StringBuilder();
-	    
+	    out.append(image.getHeight());
+	    out.append(",");
+	    out.append(image.getWidth());
+	    out.append(",");
 	    
 	    // set each pixel value to whatever, between -128 and 127  
 	    for (int i=0; i<pixels.length; i++) {  
@@ -64,6 +98,8 @@ public class Imagen {
 	    
 	    binInformation = out.toString();
 	}
+	
+	
 	
 	/**
 	 * @return String : {@link imagePath}
@@ -92,19 +128,10 @@ public class Imagen {
 
 
 	/**
-	 * @return
+	 * @return bitInfomation : String
 	 */
 	public String getBinInformation() {
 		return binInformation;
 	}
-
-	/**
-	 * @param bitInformation
-	 */
-	public void setBinInformation(String bitInformation) {
-		this.binInformation = bitInformation;
-	}
 	
-	
-
 }
