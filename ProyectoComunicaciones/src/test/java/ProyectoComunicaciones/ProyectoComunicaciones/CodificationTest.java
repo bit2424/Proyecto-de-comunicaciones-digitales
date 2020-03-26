@@ -28,7 +28,7 @@ public class CodificationTest {
 		Scene1();
 		codificador = new Codificacion(im.getBinInformation(), 0);
 		codificador.codificarRLE();
-		System.out.println(codificador.getMensajeCodificado());
+		//System.out.println(codificador.getMensajeCodificado());
 		
 	}
 	
@@ -38,8 +38,9 @@ public class CodificationTest {
 		codificador = new Codificacion(mensaje,0);
 		codificador.codificarLZW();
 		System.out.println(codificador.getMensajeCodificado());
-		String mc = codificador.getMensajeCodificado();
+		mensaje = codificador.getMensajeCodificado();
 		codificador2 = new Codificacion(mensaje, 1);
+		codificador2.decodificarLZW();
 		System.out.println(codificador2.getMensajeOriginal());
 
 	}

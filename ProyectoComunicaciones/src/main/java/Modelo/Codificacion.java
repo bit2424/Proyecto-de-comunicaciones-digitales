@@ -82,6 +82,7 @@ public class Codificacion {
 				p = c;
 			}
 		}
+		out.append(lookUp.get(p));
 		mensajeCodificado = out.toString();
 	}
 	
@@ -89,7 +90,7 @@ public class Codificacion {
 	 * 
 	 */
 	public void decodificarLZW() {
-		String rawInfo[] = mensajeCodificado.split("*");
+		String rawInfo[] = mensajeCodificado.split("\\*");
 		String rawTable[] = rawInfo[0].split(";");
 		String rawMessage[] = rawInfo[1].split(",");
 		
@@ -108,20 +109,20 @@ public class Codificacion {
 		int o = Integer.parseInt(rawMessage[0]);
 		String s = "";
 		String c = "";
-		out.append(lookUp.get(o));out.append(",");
+		out.append(lookUp.get(o));
 		
 		for(int i = 1; i<rawMessage.length;i++) {
 			int n = Integer.parseInt(rawMessage[i]);
 			
-			if(lookUp.containsKey(n)){
+			if(!lookUp.containsKey(n)){
 				s = lookUp.get(o);
 				s += c;
 			}else {
 				s = lookUp.get(n);
 			}
 			
-			out.append(s);out.append(",");
-			c = c.charAt(0)+"";
+			out.append(s);
+			c = s.charAt(0)+"";
 			id++;
 			lookUp.put(id,lookUp.get(o)+c);
 			o = n;
@@ -134,25 +135,27 @@ public class Codificacion {
 	 * 
 	 */
 	public void codificarRLE() {
-		String info = mensajeOriginal;
+		String info[] = mensajeOriginal.split(",");
 		StringBuilder result = new StringBuilder();
 		int pos = 0;
 		int accum = 1;
 		
-		while(pos < info.length()-1) {
-			if(info.charAt(pos) == info.charAt(pos+1)) {
+		while(pos < info.length-1) {
+			if(info[pos].equals(info[pos+1])) {
 				accum++;
 			}else {
 				result.append(accum);
-				result.append(info.charAt(pos));
-				result.append('-');
+				result.append(',');
+				result.append(info[pos]);
+				result.append(';');
 				accum = 1;
+				System.out.println(accum+info[pos]+",");
 			}
 			pos++;
 		}
 		
 		result.append(accum);
-		result.append(info.charAt(info.length()-1));
+		result.append(info[info.length-1]);
 		
 		mensajeCodificado =  result.toString();
 	}
@@ -161,19 +164,22 @@ public class Codificacion {
 	 * 
 	 */
 	public void decodificarRLE() {
-		String info = mensajeOriginal;
+		String info = mensajeCodificado;
 		StringBuilder result = new StringBuilder();
-		String splitInfo[] = info.split("-");
-		
-		for(int i = 0; i<splitInfo.length; i++){
-			String ref = splitInfo[i]; 
-			int repetitions = Integer.parseInt(ref.substring(0,ref.length()));
-			char symbol = ref.charAt(ref.length()-1);
-			for(int j = 0; j<repetitions;j++) {
-				result.append(symbol);
+		String splitInfo[] = info.split(";");
+
+		for (int i = 0; i < splitInfo.length; i++) {
+			String ref[] = splitInfo[i].split(",");
+			if (ref.length > 0) {
+				int repetitions = Integer.parseInt(ref[0]);
+				int symbol = Integer.parseInt(ref[1]);
+				for (int j = 0; j < repetitions; j++) {
+					result.append(symbol);
+					result.append(",");
+				}
 			}
 		}
-		
+
 		mensajeOriginal = result.toString();
 	}
 	

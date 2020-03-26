@@ -93,7 +93,7 @@ public class Imagen {
 	    	int blue  = (int)(pixels[i] & 0x0000ff);
 	    	out.append(pixels[i]);
 	    	out.append(",");
-	    	System.out.println(pixels[i]);
+	    	//System.out.println(pixels[i]);
 	    }
 	    
 	    binInformation = out.toString();
