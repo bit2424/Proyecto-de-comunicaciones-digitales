@@ -77,7 +77,7 @@ public class Codificacion {
 			if(lookUp.containsKey(p+c)) {
 				p = p+c;
 			}else {
-				out.append(p);out.append(",");
+				out.append(lookUp.get(p));out.append(",");
 				lookUp.put(p+c,id);id++;
 				p = c;
 			}
@@ -148,6 +148,7 @@ public class Codificacion {
 				result.append('-');
 				accum = 1;
 			}
+			pos++;
 		}
 		
 		result.append(accum);

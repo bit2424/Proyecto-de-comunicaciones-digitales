@@ -119,7 +119,7 @@ public class Archivo {
 	/**
 	 *  Metodo para generar la traduccion de un texto alfanumérico a binario
 	 * @param info : String con el texto a traducir
-	 * @return : Un String con el texto binario
+	 * @return : Un String con el texto binario1|
 	 */
 	private String generarBinario(String info) {
 		// TODO Auto-generated method stub

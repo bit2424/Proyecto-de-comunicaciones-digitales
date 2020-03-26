@@ -20,7 +20,7 @@ public class CodificationTest {
 	}
 	
 	void Scene2() {
-		mensaje = new String("como   coco");
+		mensaje = new String("como coco");
 	}
 	
 	@Test
