@@ -41,17 +41,14 @@ public class Codificacion {
 	 */
 	public Codificacion(String mensaje ,int type) {
 		if(type == CODIFICAR) {
-			this.mensajeCodificado = mensaje;	
-			mensajeOriginal = "";
+			this.mensajeOriginal = mensaje;			
 		}else if(type == DECODIFICAR){
-			this.mensajeOriginal = mensaje;	
-			mensajeCodificado = "";
+			this.mensajeCodificado = mensaje;						
 		}
 	}
 	
 	/**
-	 * Metodo para aplicar el algoritmo de codificacion LZW sobre el String 
-	 * de <b>mensajeOriginal</b> y almacenar el resultado en el String <b>mensajeCodificado</b>
+	 * 
 	 */
 	public void codificarLZW() {
 		HashMap<String,Integer> lookUp = new HashMap();
@@ -60,7 +57,7 @@ public class Codificacion {
 		
 		int id = 0;
 		
-		for(int i = 0; i<info.length ; i++) {
+		for(int i = 0; i<mensajeOriginal.length(); i++) {
 			if(!lookUp.containsKey(info[i])) {
 				lookUp.put(info[i],id);
 				out.append(info[i]);
@@ -89,8 +86,7 @@ public class Codificacion {
 	}
 	
 	/**
-	 * Metodo para aplicar el algoritmo de decodificacion LZW sobre el String 
-	 * de <b>mensajeCodificado</b> y almacenar el resultado en el String <b>mensajeOriginal</b>
+	 * 
 	 */
 	public void decodificarLZW() {
 		String rawInfo[] = mensajeCodificado.split("*");
@@ -135,8 +131,7 @@ public class Codificacion {
 	}
 	
 	/**
-	 * Metodo para aplicar el algoritmo de codificacion RLE sobre el String 
-	 * de <b>mensajeOriginal</b> y almacenar el resultado en el String <b>mensajeCodificado</b>
+	 * 
 	 */
 	public void codificarRLE() {
 		String info = mensajeOriginal;
@@ -162,10 +157,8 @@ public class Codificacion {
 	}
 	
 	/**
-	 * Metodo para aplicar el algoritmo de decodificacion RLE sobre el String 
-	 * de <b>mensajeCodificado</b> y almacenar el resultado en el String <b>mensajeOriginal</b>
-	*/
-	
+	 * 
+	 */
 	public void decodificarRLE() {
 		String info = mensajeOriginal;
 		StringBuilder result = new StringBuilder();
@@ -187,25 +180,25 @@ public class Codificacion {
 	
 	
 	/**
-	 * @return mensajeOriginal : Un String con el mensaje original
+	 * @return
 	 */
 	public String getMensajeOriginal() {
 		return mensajeOriginal;
 	}
 	/**
-	 * @param mensajeOriginal : Un String con el mensaje original que se quiere codificar
+	 * @param mensajeOriginal
 	 */
 	public void setMensajeOriginal(String mensajeOriginal) {
 		this.mensajeOriginal = mensajeOriginal;
 	}
 	/**
-	 * @return mensajeCodificado : Un String con el mensaje con la informacion codificada
+	 * @return
 	 */
 	public String getMensajeCodificado() {
 		return mensajeCodificado;
 	}
 	/**
-	 * @param mensajeCodificado :  Un String con el mensaje con la informacion que se quiere decodificar
+	 * @param mensajeCodificado
 	 */
 	public void setMensajeCodificado(String mensajeCodificado) {
 		this.mensajeCodificado = mensajeCodificado;
