@@ -1,4 +1,4 @@
-package ProyectoComunicaciones.ProyectoComunicaciones;
+package ModeloTests;
 
 import static org.junit.Assert.assertEquals;
 

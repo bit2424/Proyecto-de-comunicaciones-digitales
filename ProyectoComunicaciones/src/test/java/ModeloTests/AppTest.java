@@ -1,4 +1,4 @@
-package ProyectoComunicaciones.ProyectoComunicaciones;
+package ModeloTests;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

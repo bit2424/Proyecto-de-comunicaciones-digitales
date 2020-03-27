@@ -1,4 +1,4 @@
-package ProyectoComunicaciones.ProyectoComunicaciones;
+package ModeloTests;
 
 import org.junit.Test;
 
