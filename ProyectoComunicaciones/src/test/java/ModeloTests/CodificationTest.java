@@ -25,7 +25,7 @@ public class CodificationTest {
 	}
 	
 	void Scene3() {
-		mensaje = new String("e,v,i,t,a,r,e, ,l,a,s, ,r,e,p,e,t,i,c,i,o,n,e,s, ,e,n, ,m,i,s, ,t,r,a,d,u,c,c,i,o,n,e,s");
+		mensaje = new String("a,a,a,a,a,a,e, ,l,a,s, ,r,e,p,e,t,i,c,i,o,n,e,s, ,e,n, ,m,i,s, ,t,r,a,d,u,c,c,i,o,n,e,s");
 		System.out.println("Mensaje Original: "+ mensaje);
 	}
 	
