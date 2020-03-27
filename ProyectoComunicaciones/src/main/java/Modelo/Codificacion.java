@@ -200,7 +200,7 @@ public class Codificacion {
 		for (int i = 0; i < splitInfo.length; i++) {
 			String ref[] = splitInfo[i].split(",");
 			if (ref.length > 0) {
-				int repetitions = Integer.parseInt(ref[0]);
+				int repetitions = Integer.parseInt(ref[i]);
 				int symbol = Integer.parseInt(ref[1]);
 				for (int j = 0; j < repetitions; j++) {
 					result.append(symbol);
