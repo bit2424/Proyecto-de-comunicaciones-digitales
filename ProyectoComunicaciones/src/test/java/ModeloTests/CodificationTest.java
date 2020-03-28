@@ -15,6 +15,7 @@ public class CodificationTest {
 	Codificacion codificador2;
 	String mensaje;
 	Imagen im2;
+	String mensaje2;
 	
 	void Scene1() {
 		im = new Imagen("src\\resources\\images\\img 1.PNG");
@@ -34,6 +35,10 @@ public class CodificationTest {
 		im2 = new Imagen("src\\resources\\images\\homero.png");
 	}
 	
+	void Scene5() {
+		mensaje2 = new String("tres tristes tigres comian trigo");
+	}
+	
 	@Test
 	public void testRLEAlgorithm1() {
 		Scene1();
@@ -44,6 +49,7 @@ public class CodificationTest {
 		System.out.println("\n\n//////////////////////////////////////// TEST RLE 1 ////////////////////////////////////////");
 		System.out.println("Mensaje codificado RLE: "+codificador.getMensajeCodificado());
 		System.out.println("Mensaje decodificado RLE: "+codificador2.getMensajeOriginal());
+		assertEquals(codificador2.getMensajeOriginal(),im.getBinInformation());
 		
 	}
 	
@@ -75,16 +81,30 @@ public class CodificationTest {
 	}
 	
 	@Test
-	public void testLZWAlgorithm2() {
-		System.out.println("\n\n//////////////////////////////////////// TEST LZW 2 ////////////////////////////////////////");
+	public void testRLEAlgorithm3() {
+		System.out.println("\n\n//////////////////////////////////////// TEST RLE 3 ////////////////////////////////////////");
 		Scene4();
 		codificador = new Codificacion(im2.getBinInformation(),0);
-		codificador.codificarLZW();
+		codificador.codificarRLE();
 		codificador2 = new Codificacion(codificador.getMensajeCodificado(),1);
-		codificador2.decodificarLZW();
+		codificador2.decodificarRLE();
 		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
 		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
 		
+	}
+	
+	@Test
+	public void testLZWAlgorithm2() {
+		System.out.println("\n\n//////////////////////////////////////// TEST LZW 2 ////////////////////////////////////////");
+		Scene5();
+		codificador = new Codificacion(mensaje2,0);
+		codificador.codificarLZW();
+		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
+		mensaje = codificador.getMensajeCodificado();
+		codificador2 = new Codificacion(mensaje, 1);
+		codificador2.decodificarLZW();
+		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+
 	}
 
 }
