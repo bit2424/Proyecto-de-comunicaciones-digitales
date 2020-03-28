@@ -14,9 +14,10 @@ public class CodificationTest {
 	Codificacion codificador;
 	Codificacion codificador2;
 	String mensaje;
+	Imagen im2;
 	
 	void Scene1() {
-		im = new Imagen("C:\\Users\\nelso\\ProyectoComunicaciones\\src\\resources\\images\\img 1.PNG");
+		im = new Imagen("src\\resources\\images\\img 1.PNG");
 	}
 	
 	void Scene2() {
@@ -29,13 +30,20 @@ public class CodificationTest {
 		System.out.println("Mensaje Original: "+ mensaje);
 	}
 	
+	void Scene4() {
+		im2 = new Imagen("src\\resources\\images\\homero.png");
+	}
+	
 	@Test
 	public void testRLEAlgorithm1() {
 		Scene1();
 		codificador = new Codificacion(im.getBinInformation(), 0);
 		codificador.codificarRLE();
+		codificador2 = new Codificacion(codificador.getMensajeCodificado(),1);
+		codificador2.decodificarRLE();
 		System.out.println("\n\n//////////////////////////////////////// TEST RLE 1 ////////////////////////////////////////");
 		System.out.println("Mensaje codificado RLE: "+codificador.getMensajeCodificado());
+		System.out.println("Mensaje decodificado RLE: "+codificador2.getMensajeOriginal());
 		
 	}
 	
@@ -64,6 +72,19 @@ public class CodificationTest {
 		codificador2.decodificarLZW();
 		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
 
+	}
+	
+	@Test
+	public void testLZWAlgorithm2() {
+		System.out.println("\n\n//////////////////////////////////////// TEST LZW 2 ////////////////////////////////////////");
+		Scene4();
+		codificador = new Codificacion(im2.getBinInformation(),0);
+		codificador.codificarLZW();
+		codificador2 = new Codificacion(codificador.getMensajeCodificado(),1);
+		codificador2.decodificarLZW();
+		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		
 	}
 
 }
