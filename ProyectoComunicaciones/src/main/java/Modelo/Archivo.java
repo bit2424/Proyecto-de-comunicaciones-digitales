@@ -51,7 +51,6 @@ public class Archivo {
 		String temp = "";
 		StringBuilder constructor = new StringBuilder();
 		while((temp = br.readLine())!= null){
-			System.out.println(temp);
 			constructor.append(temp);
 		}
 		cadena = constructor.toString();
@@ -79,7 +78,7 @@ public class Archivo {
 		//texto anteriór, con los metodos de la clase clasificación codificar y generar 
 		//un nuevo archivo con la infromación binaria) 
 		
-		String ruta = "Proyecto-de-comunicaciones-digitales\\ProyectoComunicaciones\\src\\resources\\files";
+		String ruta = direccion+"//"+nombre;
 		String contenido = info; //Debemos asumir que a cadena ya se le hicieron las operaciones pertinentes
 		
 		File file = new File(ruta);
@@ -108,22 +107,72 @@ public class Archivo {
 
 	/**
 	 * Metodo para  traducir un texto binario a un texto alfanumérico
-	 * @param info : String con el texto a traducir
+	 * @param s : String con el texto a traducir
 	 * @return : Un String con el texto alfanumérico
 	 */
-	private String traducirBinario(String info) {
-		// TODO Auto-generated method stub
-		return null;
+	private String traducirBinario(String s) {
+		StringBuilder out = new StringBuilder();
+        String chars[] = s.split(" ");
+		
+        for(int i = 0; i<chars.length; i++) {
+        	out.append((char)Long.parseLong(chars[i],2));
+        }
+		
+		return out.toString();
 	}
 	
 	/**
 	 *  Metodo para generar la traduccion de un texto alfanumérico a binario
-	 * @param info : String con el texto a traducir
-	 * @return : Un String con el texto binario1|
+	 * @param s : String con el texto a traducir
+	 * @return : Un String con el texto binario1
 	 */
-	private String generarBinario(String info) {
-		// TODO Auto-generated method stub
-		return null;
+	private String generarBinario(String s) {
+		int n = s.length(); 
+		StringBuilder bin = new StringBuilder();
+        for (int i = 0; i < n; i++)  
+        { 
+            // convert each char to 
+            // ASCII value 
+            int val = Integer.valueOf(s.charAt(i)); 
+  
+            // Convert ASCII value to binary 
+            StringBuilder ref = new StringBuilder();
+            while (val > 0)  
+            { 
+                if (val % 2 == 1) 
+                { 
+                    ref.append('1'); 
+                } 
+                else
+                	ref.append('0');
+                val /= 2; 
+            }
+            bin.append(ref.reverse().toString());
+            bin.append(" ");
+        }
+		return bin.toString();
 	}
+
+
+	public String getCadena() {
+		return cadena;
+	}
+
+
+	public void setCadena(String cadena) {
+		this.cadena = cadena;
+	}
+
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	
 	
 }
