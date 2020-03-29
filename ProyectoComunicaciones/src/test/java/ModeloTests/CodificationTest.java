@@ -18,7 +18,7 @@ public class CodificationTest {
 	String mensaje2;
 	
 	void Scene1() {
-		im = new Imagen("src\\resources\\images\\img 1.PNG");
+		im = new Imagen("src\\resources\\images\\img1.PNG");
 	}
 	
 	void Scene2() {
@@ -42,14 +42,20 @@ public class CodificationTest {
 	@Test
 	public void testRLEAlgorithm1() {
 		Scene1();
-		codificador = new Codificacion(im.getBinInformation(), 0);
+		codificador = new Codificacion(im.getPixInformation(), 0);
 		codificador.codificarRLE();
 		codificador2 = new Codificacion(codificador.getMensajeCodificado(),1);
 		codificador2.decodificarRLE();
 		System.out.println("\n\n//////////////////////////////////////// TEST RLE 1 ////////////////////////////////////////");
-		System.out.println("Mensaje codificado RLE: "+codificador.getMensajeCodificado());
-		System.out.println("Mensaje decodificado RLE: "+codificador2.getMensajeOriginal());
-		assertEquals(codificador2.getMensajeOriginal(),im.getBinInformation());
+		
+		System.out.println("\nMensaje codificado RLE: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado RLE: "+codificador.getBitsMensajeCodificado());
+		
+		//System.out.println("\nMensaje decodificado RLE: "+codificador2.getMensajeOriginal());
+		System.out.println("\nBits mensaje decodificado RLE: "+codificador2.getBitsMensajeOriginal());
+		
+		System.out.println("Relacion de compresión: "+ codificador2.calcularRelacionCompresion());
+		assertEquals(codificador2.getMensajeOriginal(),im.getPixInformation());
 		
 	}
 	
@@ -59,11 +65,17 @@ public class CodificationTest {
 		codificador = new Codificacion(mensaje, 0);
 		codificador.codificarRLE();
 		System.out.println("\n\n//////////////////////////////////////// TEST RLE 2 ////////////////////////////////////////");
-		System.out.println("Mensaje codificado RLE: "+codificador.getMensajeCodificado());
+		
+		System.out.println("\nMensaje codificado RLE: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado RLE: "+codificador.getBitsMensajeCodificado());
+		
 		mensaje = codificador.getMensajeCodificado();
 		codificador2 = new Codificacion(mensaje, 1);
 		codificador2.decodificarRLE();
-		System.out.println("Mensaje decodificado RLE:"+codificador2.getMensajeOriginal());
+		System.out.println("\nMensaje decodificado RLE:"+codificador2.getMensajeOriginal());
+		System.out.println("Bits mensaje decodificado RLE: "+codificador2.getBitsMensajeOriginal());
+		
+		System.out.println("Relacion de compresión: "+ codificador2.calcularRelacionCompresion());
 	}
 	
 	@Test
@@ -72,25 +84,33 @@ public class CodificationTest {
 		Scene2();
 		codificador = new Codificacion(mensaje,0);
 		codificador.codificarLZW();
-		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("\nMensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado LZW: "+codificador.getBitsMensajeCodificado());
+		
 		mensaje = codificador.getMensajeCodificado();
 		codificador2 = new Codificacion(mensaje, 1);
 		codificador2.decodificarLZW();
-		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
-
+		System.out.println("\nMensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		System.out.println("Bits mensaje decodificado LZW: "+codificador2.getBitsMensajeOriginal());
+		
+		System.out.println("Relacion de compresión: "+ codificador2.calcularRelacionCompresion());
 	}
 	
 	@Test
 	public void testRLEAlgorithm3() {
 		System.out.println("\n\n//////////////////////////////////////// TEST RLE 3 ////////////////////////////////////////");
 		Scene4();
-		codificador = new Codificacion(im2.getBinInformation(),0);
+		codificador = new Codificacion(im2.getPixInformation(),0);
 		codificador.codificarRLE();
 		codificador2 = new Codificacion(codificador.getMensajeCodificado(),1);
 		codificador2.decodificarRLE();
-		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
-		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		System.out.println("\nMensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado LZW: "+codificador.getBitsMensajeCodificado());
 		
+		//System.out.println("\nMensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		System.out.println("\nBits mensaje decodificado LZW: "+codificador2.getBitsMensajeOriginal());
+
+		System.out.println("Relacion de compresión: "+ codificador2.calcularRelacionCompresion());
 	}
 	
 	@Test
@@ -99,12 +119,18 @@ public class CodificationTest {
 		Scene5();
 		codificador = new Codificacion(mensaje2,0);
 		codificador.codificarLZW();
-		System.out.println("Mensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("\nMensaje codificado LZW: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado LZW: "+codificador.getBitsMensajeCodificado());
+		
 		mensaje = codificador.getMensajeCodificado();
+		
 		codificador2 = new Codificacion(mensaje, 1);
 		codificador2.decodificarLZW();
-		System.out.println("Mensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		
+		System.out.println("\nMensaje decodificado LZW: "+codificador2.getMensajeOriginal());
+		System.out.println("Bits mensaje decodificado LZW: "+codificador2.getBitsMensajeOriginal());
 
+		System.out.println("Relacion de compresión: "+ codificador2.calcularRelacionCompresion());
 	}
 
 }

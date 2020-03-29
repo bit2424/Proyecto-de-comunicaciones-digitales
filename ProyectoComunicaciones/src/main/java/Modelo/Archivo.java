@@ -41,6 +41,7 @@ public class Archivo {
 
 	
 	/**
+	 * Metodo para leer información de un archivo de texto plano y almacenar el contenido en <b>cadena</b>
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
@@ -59,6 +60,7 @@ public class Archivo {
 	
 	
 	/**
+	 * Metodo para leer información de un archivo de texto plano para traducir y almacenar el contenido en <b>cadena</b>
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
@@ -74,10 +76,6 @@ public class Archivo {
 	 * @throws IOException
 	 */
 	public void crearArchivo(String nombre,String info) throws IOException {
-		//Crea un archivo con la información (despues de leer el archivo de 
-		//texto anteriór, con los metodos de la clase clasificación codificar y generar 
-		//un nuevo archivo con la infromación binaria) 
-		
 		String ruta = direccion+"//"+nombre;
 		String contenido = info; //Debemos asumir que a cadena ya se le hicieron las operaciones pertinentes
 		

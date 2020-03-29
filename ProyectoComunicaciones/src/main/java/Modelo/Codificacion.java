@@ -20,6 +20,14 @@ public class Codificacion {
 	 * Este String guarda información codificada
 	 */
 	private String mensajeCodificado;
+	/**
+	 * Un entero con la cantidad de bits de la información sin codificacion
+	 */
+	private int bitsMensajeOriginal;
+	/**
+	 * Un entero con la cantidad de bits de la información codificada
+	 */
+	private int bitsMensajeCodificado;
 	
 	/**
 	 * Int representando la opcion de codificar
@@ -41,9 +49,11 @@ public class Codificacion {
 	 */
 	public Codificacion(String mensaje ,int type) {
 		if(type == CODIFICAR) {
-			this.mensajeOriginal = mensaje;			
+			this.mensajeOriginal = mensaje;
+			bitsMensajeOriginal = mensaje.length()*7;
 		}else if(type == DECODIFICAR){
-			this.mensajeCodificado = mensaje;						
+			this.mensajeCodificado = mensaje;
+			bitsMensajeCodificado = mensaje.length()*7;
 		}
 	}
 	
@@ -78,6 +88,7 @@ public class Codificacion {
 		}
 		out.append(lookUp.get(p));
 		mensajeCodificado = out.toString();
+		bitsMensajeCodificado = mensajeCodificado.length()*7;
 	}
 	
 	/**
@@ -150,6 +161,7 @@ public class Codificacion {
 		}
 		
 		mensajeOriginal = out.toString();
+		bitsMensajeOriginal = mensajeOriginal.length()*7;
 	}
 	
 	/**
@@ -186,6 +198,7 @@ public class Codificacion {
 		result.append(info[info.length-1]);
 		
 		mensajeCodificado =  result.toString();
+		bitsMensajeCodificado = mensajeCodificado.length()*7;
 	}
 	
 	/**
@@ -211,8 +224,17 @@ public class Codificacion {
 		}
 
 		mensajeOriginal = result.toString();
+		bitsMensajeOriginal = mensajeOriginal.length()*7;
 	}
 	
+	
+	/**
+	 * El metodo calcula la relación de compresión entre <b>bitsMensajeOriginal</b> y <b>bitsMensajeCodificado</b>
+	 * @return un numero real representando la relasión de compresion
+	 */
+	public double calcularRelacionCompresion() {
+		return (double)bitsMensajeOriginal/(double)bitsMensajeCodificado;
+	}
 	
 	
 	
@@ -240,7 +262,12 @@ public class Codificacion {
 	public void setMensajeCodificado(String mensajeCodificado) {
 		this.mensajeCodificado = mensajeCodificado;
 	}
-	
-	
 
+	public int getBitsMensajeOriginal() {
+		return bitsMensajeOriginal;
+	}
+
+	public int getBitsMensajeCodificado() {
+		return bitsMensajeCodificado;
+	}
 }

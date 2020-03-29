@@ -27,7 +27,7 @@ public class Imagen {
 	/**
 	 * String con la información rgb de cada bit de la imagen
 	 */
-	private String binInformation;
+	private String pixInformation;
 	
 	
 	
@@ -38,8 +38,8 @@ public class Imagen {
 	public Imagen(String imagePath) {
 		this.imagePath = imagePath;
 		image = IJ.openImage(imagePath);
-		calculateBinInformation();
-		image.show();
+		calculatePixInformation();
+		//image.show();
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class Imagen {
 		}
 		
 		this.image = ref;
-		image.show();
+		//image.show();
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class Imagen {
     *  y los almacena en el String <b>binInformation</b> separados por comas.
     *  Los primeros dos datos del String contienen la <b>altura</b> y el <b>ancho</b> de la imagen.
     */
-	private void calculateBinInformation() {
+	private void calculatePixInformation() {
 	    ImageProcessor myProcessor = image.getProcessor();
 	    
 	    int[] pixels = (int[]) myProcessor.getPixels();
@@ -96,7 +96,7 @@ public class Imagen {
 	    	//System.out.println(pixels[i]);
 	    }
 	    
-	    binInformation = out.toString();
+	    pixInformation = out.toString();
 	}
 	
 	
@@ -130,8 +130,8 @@ public class Imagen {
 	/**
 	 * @return bitInfomation : String
 	 */
-	public String getBinInformation() {
-		return binInformation;
+	public String getPixInformation() {
+		return pixInformation;
 	}
 	
 }
