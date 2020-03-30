@@ -78,7 +78,7 @@ public class Archivo {
 	public void crearArchivo(String nombre,String info) throws IOException {
 		String ruta = direccion+"//"+nombre;
 		String contenido = info; //Debemos asumir que a cadena ya se le hicieron las operaciones pertinentes
-		
+		direccion = ruta;
 		File file = new File(ruta);
 		
 		if(!file.exists()) {
