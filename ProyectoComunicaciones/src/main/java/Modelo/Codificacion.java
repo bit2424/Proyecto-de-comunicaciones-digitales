@@ -1,5 +1,6 @@
 package Modelo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -30,6 +31,25 @@ public class Codificacion {
 	private int bitsMensajeCodificado;
 	
 	/**
+	 * Una matriz generatriz para la codificación de canal
+	 */
+	private int G[][] = {{1,0,0,0},
+						 {0,1,0,0},
+						 {0,0,1,0},
+						 {0,0,0,1},
+						 {0,1,1,1},
+						 {1,0,1,1},
+						 {1,1,0,1}};
+	/**
+	 * Una matriz de paridad para la decodificación de canal
+	 */
+	private int H[][] = {{0,1,1,1,1,0,0},
+						 {1,0,1,1,0,1,0},
+						 {1,1,0,1,0,0,1}};
+	
+	private ArrayList<Long> errorList;
+	
+	/**
 	 * Int representando la opcion de codificar
 	 */
 	private static final int CODIFICAR = 0;  
@@ -44,16 +64,17 @@ public class Codificacion {
 	 * @param mensaje : String ; El mensaje sobre el cual se realizaran las operaciones.
 	 * 
 	 * @param type : int ; Representa el tipo de operacion que se realizara sobre el String <b>mensaje</b>,
-	 *  en caso de ser 0 se codificara el mensaje, en caso de ser 1 se decodificara el mansaje <b>mensaje</b>.
+	 *  en caso de ser 0 se codificara el mensaje, en caso de ser 1 se decodificara el <b>mensaje</b>.
 	 *  
 	 */
 	public Codificacion(String mensaje ,int type) {
+		errorList = new ArrayList<Long>();
 		if(type == CODIFICAR) {
 			this.mensajeOriginal = mensaje;
-			bitsMensajeOriginal = mensaje.length()*7;
+			bitsMensajeOriginal = mensaje.length();
 		}else if(type == DECODIFICAR){
 			this.mensajeCodificado = mensaje;
-			bitsMensajeCodificado = mensaje.length()*7;
+			bitsMensajeCodificado = mensaje.length();
 		}
 	}
 	
@@ -227,7 +248,138 @@ public class Codificacion {
 		bitsMensajeOriginal = mensajeOriginal.length()*7;
 	}
 	
+	/**
+	 * Metodo para codificar el String <b>mensajeOriginal</b> utilizando la matriz generatriz <b>G</b> de dimnciones <b>n*k</b>.
+	 * El mensaje original se agrupa en mensajes de <b>k</b> elementos y se codifican gerenerando un mensaje de <b>n</b> elementos.
+	 * <p>
+	 * Si el mensaje no tiene una longitud divisible por <b>k</b>, se llena de <b>j</b> ceros hasta que lo sea, y al final del mensaje se le 
+	 * agregan <b>j</b> ceros sin codificar indicando la cantidad de 0 extra que tiene el ultimo elemento del mensaje.
+	 * </p>
+	 * El resultado se almacena en el String <b>mensajeCodificado</b> 
+	 */
+	public void codificarCodigoLineal() {
+		StringBuilder out = new StringBuilder();
+		String info = mensajeOriginal.replaceAll(" ","");
+		int tamMensaje = G[0].length;
+		int tamCodificado = G.length;
+
+		for(int i = 0; i<info.length(); i+=tamMensaje) {
+			String s = info.substring(i,Math.min(i+tamMensaje,info.length()));
+			
+			int dif = i+tamMensaje-info.length();
+			if(i+tamMensaje>info.length()) {
+				for(int j = 0; j<dif; j++)s+="0";
+			}
+			
+			for(int j = 0; j<tamCodificado; j++) {
+				int res = 0;
+				for(int k = 0; k<tamMensaje; k++) {
+					res += G[j][k]*(s.charAt(k)-'0');
+					res %= 2; 
+				}
+				out.append(res);
+			}
+			if(dif>0){
+				for(int j = 0; j<dif; j++)out.append('a');
+			}
+		}
+
+		mensajeCodificado =  out.toString();
+		bitsMensajeCodificado = mensajeCodificado.length();
+	}
 	
+	/**
+	 * Metodo para decodificar el String <b>mensajeCodificado</b> utilizando el algoritmo RLE,
+	 * el resultado se almacena en el String <b>mensajeOriginal</b>,
+	 * separando cada elemento del mensaje original por una coma.
+	 */
+	public void decodificarCodigoLineal() {
+		String info = mensajeCodificado;
+		StringBuilder result = new StringBuilder();
+		
+		int tamCodificado = H[0].length;
+		int tamSindrome = H.length;
+		int tamDecodificado = G[0].length;
+		
+		for(int i = 0; i<mensajeCodificado.length() ; i+=tamCodificado) {
+			if(i+tamCodificado<mensajeCodificado.length()) {
+				String s = mensajeCodificado.substring(i,i+tamCodificado);
+				StringBuilder temp = new StringBuilder();
+				for(int j = 0; j<tamSindrome; j++) {
+					int res = 0;
+					for(int k = 0; k<tamCodificado ; k++) {
+						res += (H[j][k] * (s.charAt(k)-'0'));
+						res %= 2;
+					}
+					temp.append(res);
+				}
+				
+				int pos = determinarSindrome(temp.toString());
+				
+				if(pos == -1) {
+					result.append(s.substring(0,tamDecodificado));
+				}
+				else if(pos < tamDecodificado) {
+					String toCorrect = s;
+					char bitChange = toCorrect.charAt(pos)=='0'?'1':'0';
+					String changeTemp = toCorrect.substring(0,pos)+ bitChange + toCorrect.substring(pos+1,toCorrect.length());
+					result.append(changeTemp.substring(0,tamDecodificado));
+				}
+				else if(pos == tamDecodificado) {
+					errorList.add((long)(i/tamCodificado));
+				}
+			}else {
+				int dif = i+tamDecodificado-mensajeCodificado.length();
+				dif = tamDecodificado-dif;
+				result.delete(result.length()-dif, result.length());
+			}
+		}
+		
+		if(errorList.size()>0) {
+			mensajeOriginal = "";
+			bitsMensajeOriginal = 0;
+		}else {
+			mensajeOriginal = format(result.toString());
+			bitsMensajeOriginal = mensajeOriginal.length();			
+		}
+	}
+		 
+
+	private String format(String msg) {
+		StringBuilder out =  new StringBuilder();
+		for(int i = 0; i<msg.length() ;i+=7 ) {
+			out.append(msg.substring(i,Math.min(i+7,msg.length())));
+			out.append(" ");
+		}
+		return out.toString();
+	}
+
+	private int determinarSindrome(String msg) {
+		int sum = 0;
+		for(int i = 0; i<msg.length(); i++) {
+			sum += msg.charAt(i)-'0';
+		}
+		if(sum == 0) {
+			return -1;
+		}
+		
+		ArrayList<Integer> pos = new ArrayList<>();
+		for(int i = 0; i<H[0].length;i++) {
+			boolean posible = true;
+			
+			for(int j = 0; j<H.length && posible; j++) {
+				if(H[j][i] != msg.charAt(j)-'0')posible = false;
+			}
+			
+			if(posible) {pos.add(i);};
+		}
+		
+		if(pos.size()==1) {
+			return pos.get(0);
+		}
+		return H.length;
+	}
+
 	/**
 	 * El metodo calcula la relación de compresión entre <b>bitsMensajeOriginal</b> y <b>bitsMensajeCodificado</b>
 	 * @return un numero real representando la relasión de compresion

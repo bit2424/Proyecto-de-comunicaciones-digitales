@@ -37,6 +37,52 @@ public class CodificationTest {
 		mensaje2 = new String("tres tristes tigres comian trigo");
 	}
 	
+	void Scene6() {
+		mensaje = new String("1100011 101100 110000 111011 1101111 101100 110001 111011 1101101 101100 110010");
+	}
+	
+	void Scene7() {
+		mensaje = new String("1100011 101100 110000 111011 1101111 101100 110001 111011 1101101 101100 11");
+	}
+	
+	@Test
+	public void testCodificacionCodigoLineal1() {
+		System.out.println("\n\n//////////////////////////////////////// TEST CL 1 ////////////////////////////////////////");
+		Scene6();
+		codificador = new Codificacion(mensaje,0);
+		codificador.codificarCodigoLineal();
+		System.out.println("\nMensaje codificado CL: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado CL: "+codificador.getBitsMensajeCodificado());
+		
+		mensaje = codificador.getMensajeCodificado();
+		codificador2 = new Codificacion(mensaje, 1);
+		codificador2.decodificarCodigoLineal();
+		System.out.println("\nMensaje decodificado codigo CL: "+codificador2.getMensajeOriginal());
+		System.out.println("Bits mensaje decodificado codigo CL: "+codificador2.getBitsMensajeOriginal());
+		
+		System.out.println("\nRelacion de compresión: "+ codificador.calcularRelacionCompresion());
+	}
+	
+	@Test
+	public void testCodificacionCodigoLineal2() {
+		System.out.println("\n\n//////////////////////////////////////// TEST CL 2 ////////////////////////////////////////");
+		Scene6();
+		codificador = new Codificacion(mensaje,0);
+		codificador.codificarCodigoLineal();
+		System.out.println("\nMensaje codificado CL: "+codificador.getMensajeCodificado());
+		System.out.println("Bits mensaje codificado CL: "+codificador.getBitsMensajeCodificado());
+		
+		mensaje = codificador.getMensajeCodificado();
+		mensaje = "0"+mensaje.substring(1,mensaje.length());
+		
+		codificador2 = new Codificacion(mensaje, 1);
+		codificador2.decodificarCodigoLineal();
+		System.out.println("\nMensaje decodificado codigo CL: "+codificador2.getMensajeOriginal());
+		System.out.println("Bits mensaje decodificado codigo CL: "+codificador2.getBitsMensajeOriginal());
+		
+		System.out.println("\nRelacion de compresión: "+ codificador.calcularRelacionCompresion());
+	}
+	
 	@Test
 	public void testRLEAlgorithm1() {
 		Scene1();
