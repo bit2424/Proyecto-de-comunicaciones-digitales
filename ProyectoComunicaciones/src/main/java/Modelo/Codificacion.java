@@ -289,9 +289,13 @@ public class Codificacion {
 	}
 	
 	/**
-	 * Metodo para decodificar el String <b>mensajeCodificado</b> utilizando el algoritmo RLE,
-	 * el resultado se almacena en el String <b>mensajeOriginal</b>,
-	 * separando cada elemento del mensaje original por una coma.
+	 * Metodo para decodificar el String <b>mensajeCpdificado</b> utilizando la matriz de paridad <b>H</b> de dimnciones <b>m*n</b>.
+	 * El mensaje a decodificar se agrupa en mensajes de <b>n</b> bits y se decodifican calculando un sindrome de <b>m</b> bits para corregir y detectar errores.
+	 * <p>
+	 * Si el mensaje tiene errores corregibles dichos errores se corregiran automaticamente, de tener errores no corregibles la posición de la palabra
+	 * se almacena.
+	 * </p>
+	 * Si el resultado no tiene errores incorregibles se almacena en el String <b>mensajeOriginal</b>, en caso contrario el <b>mensajeOriginal</b> se vuelve una cadena vacia. 
 	 */
 	public void decodificarCodigoLineal() {
 		String info = mensajeCodificado;
@@ -345,6 +349,11 @@ public class Codificacion {
 	}
 		 
 
+	/**
+	 * El metodo separa el String msg con un caracter ' ' cada 7 caracteres
+	 * @param msg : String Es el string con la información a formatear.
+	 * @return un String con la información formateada-
+	 */
 	private String format(String msg) {
 		StringBuilder out =  new StringBuilder();
 		for(int i = 0; i<msg.length() ;i+=7 ) {
@@ -354,6 +363,15 @@ public class Codificacion {
 		return out.toString();
 	}
 
+	/**
+	 * Un metodo para determinar si hay un error o no en la palabra codigo siendo decodificada, en caso de haber un error corregible 
+	 * retorna la posición a corregir.
+	 * @param msg : String representando el sindrome de la palabra codigo
+	 * @return un Int con la información del sindrome 
+	 * <p>Si es -1 representa que no hay error</p>
+	 * <p>Si es un entero menor que el tamaño de una fila de <b>H</b> representa que hay un error corregible</p>
+	 * <p>Si es un entero igual que el tamaño de una fila de <b>H</b>representa que hay un error incorregible</p>
+	 */
 	private int determinarSindrome(String msg) {
 		int sum = 0;
 		for(int i = 0; i<msg.length(); i++) {
