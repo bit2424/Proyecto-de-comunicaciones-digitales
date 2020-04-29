@@ -176,5 +176,15 @@ public class CodificationTest {
 
 		System.out.println("\nRelacion de compresión: "+ codificador2.calcularRelacionCompresion());
 	}
+	
+	@Test
+	public void codificarDodigoLineal() {
+		System.out.println("\n\n//////////////////////////////////////// CODIGO LINEAL ////////////////////////////////////////");
+		Scene5();
+		codificador = new Codificacion(mensaje2,0);
+		codificador.codificarCodigoLineal();
+		System.out.println("\nMensaje codificado Lineal: "+codificador.getMensajeCodificado());
+		
+	}
 
 }
