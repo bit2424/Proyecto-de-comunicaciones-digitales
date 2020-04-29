@@ -184,6 +184,10 @@ public class CodificationTest {
 		codificador = new Codificacion(mensaje2,0);
 		codificador.codificarCodigoLineal();
 		System.out.println("\nMensaje codificado Lineal: "+codificador.getMensajeCodificado());
+		mensaje = codificador.getMensajeCodificado();
+		codificador2 = new Codificacion(mensaje,1);
+		codificador2.decodificarCodigoLineal();
+		System.out.println("\nMensaje decodificado lineal: "+codificador2.getMensajeOriginal());
 		
 	}
 
