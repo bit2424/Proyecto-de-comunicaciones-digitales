@@ -283,7 +283,7 @@ public class Codificacion {
 				for(int j = 0; j<dif; j++)out.append('a');
 			}
 		}
-
+		
 		mensajeCodificado =  out.toString();
 		bitsMensajeCodificado = mensajeCodificado.length();
 	}
@@ -398,6 +398,8 @@ public class Codificacion {
 		return H.length;
 	}
 
+
+	
 	/**
 	 * El metodo calcula la relación de compresión entre <b>bitsMensajeOriginal</b> y <b>bitsMensajeCodificado</b>
 	 * @return un numero real representando la relasión de compresion
@@ -406,7 +408,29 @@ public class Codificacion {
 		return (double)bitsMensajeOriginal/(double)bitsMensajeCodificado;
 	}
 	
+	/**
+	 * El metodo calcula la rata de información del codigo de linea formado por <b>bitsMensajeOriginal</b> y la matriz <b>G</b>
+	 * @return un numero real representando la relasión de compresion
+	 */
+	public double calcularRata() {
+		return (double)G.length/(double)G[0].length;
+	}
 	
+	/**
+	 * El metodo calcula la redundancia en exceso del codigo de linea formado por <b>bitsMensajeOriginal</b> y la matriz <b>G</b>
+	 * @return un numero real representando la relasión de compresion
+	 */
+	public double calcularRedundanciaExceso() {
+		return 1 - calcularRedundancia();
+	}
+	
+	/**
+	 * El metodo calcula la redundancia en exceso del codigo de linea formado por <b>bitsMensajeOriginal</b> y la matriz <b>G</b>
+	 * @return un numero real representando la relasión de compresion
+	 */
+	public double calcularRedundancia() {
+		return 1/calcularRata();
+	}	
 	
 	/**
 	 * @return un String con el mensaje original
