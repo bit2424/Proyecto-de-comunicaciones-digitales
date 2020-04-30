@@ -190,5 +190,16 @@ public class CodificationTest {
 		System.out.println("\nMensaje decodificado lineal: "+codificador2.getMensajeOriginal());
 		
 	}
+	
+	@Test
+	public void testRata() {
+		System.out.println("\n\n//////////////////////////////////////// RATA, REDUNDANCIA, REDUNDANCIA EN EXCESO ////////////////////////////////////////");
+		Scene2();
+		codificador = new Codificacion(mensaje,0);
+		codificador.codificarLZW();
+		System.out.println("\nRata: "+codificador.calcularRata());
+		System.out.println("\nRedundancia: "+codificador.calcularRedundancia());
+		System.out.println("\nRedundancia en exceso: "+codificador.calcularRedundanciaExceso());
+	}
 
 }
